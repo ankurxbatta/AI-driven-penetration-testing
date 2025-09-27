@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  kali-pentest-mcp:
+    build: .
+    container_name: kali-pentest-mcp
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MCP_SERVER_NAME=kali-pentest
+    volumes:
+      # Optional: Mount results directory
+      - ./results:/app/results:rw
+    networks:
+      - pentest-network
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_add:
+      # Required for nmap raw socket operations
+      - NET_RAW
+      - NET_ADMIN
+    # Resource limits for safety
+    mem_limit: 1g
+    cpus: '0.5'
+    
+networks:
+  pentest-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  results:
+    driver: local
