@@ -9,6 +9,7 @@ An AI-driven penetration testing platform that combines Claude with MCP Server t
 
 ## Technologies Used
 - Python
+- Docker
 
 ## Getting Started
 1. Clone the repo:  
